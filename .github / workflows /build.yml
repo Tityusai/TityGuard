@@ -1,0 +1,22 @@
+name: Build TityGuard
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B clean package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TityGuard-jar
+          path: target/TityGuard-*.jar
