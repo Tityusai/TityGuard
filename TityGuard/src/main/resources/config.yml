@@ -1,0 +1,76 @@
+# TityGuard config
+settings:
+  setback: true          # hareket check'lerinde oyuncuyu geri at
+  punish: true           # max-vl asilinca komut calistir
+  cancel-hits: true      # flaglenen vurusu / blok islemini iptal et
+  alert-console: true
+  join-grace-ms: 3000
+  decay-amount: 1.0
+  decay-interval-seconds: 30
+  alert-format: "&8[&bTity&3Guard&8] &f%player% &7failed &c%check% &8(&7VL %vl%&8) &7%info%"
+
+punishment:
+  default-vl: 25
+  commands:
+    - "kick %player% &cUnfair advantage detected &7(%check%)"
+
+checks:
+  speed:
+    enabled: true
+    setback: true
+    max-vl: 30
+    ground-limit: 0.38
+    air-limit: 0.42
+    tolerance: 0.02
+    buffer: 5
+  fly:
+    enabled: true
+    setback: true
+    max-vl: 25
+    tolerance: 0.03
+    buffer: 4
+  nofall:
+    enabled: true
+    max-vl: 10
+    min-fall: 6.0
+  timer:
+    enabled: true
+    setback: true
+    max-vl: 20
+    threshold-ms: 200
+    max-negative-ms: 200
+    buffer: 2
+  reach:
+    enabled: true
+    max-vl: 20
+    max-reach: 3.1
+    ping-comp: 0.002
+    max-ping: 250
+    buffer: 3
+  killaura:
+    enabled: true
+    max-vl: 20
+    hitbox-expand: 0.2
+    ping-comp: 0.0015
+    aim-buffer: 5
+    multi-window-ms: 300
+    multi-targets: 3
+  autoclicker:
+    enabled: true
+    max-vl: 20
+    max-cps: 22
+    sample: 30
+    min-std-ms: 7
+    mean-max-ms: 300
+  scaffold:
+    enabled: true
+    max-vl: 20
+    max-place-per-sec: 15
+    buffer: 4
+    reach: 6.5
+  fastbreak:
+    enabled: true
+    max-vl: 20
+    min-ratio: 0.6
+    max-breaks-per-sec: 14
+    buffer: 3
