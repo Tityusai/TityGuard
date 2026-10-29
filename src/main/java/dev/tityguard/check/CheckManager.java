@@ -13,6 +13,7 @@ public class CheckManager {
     public final AutoClickerCheck autoClicker;
     public final ScaffoldCheck scaffold;
     public final FastBreakCheck fastBreak;
+    public final VelocityCheck velocity;
 
     public CheckManager(TityGuard plugin) {
         speed = new SpeedCheck(plugin);
@@ -24,5 +25,6 @@ public class CheckManager {
         autoClicker = new AutoClickerCheck(plugin);
         scaffold = new ScaffoldCheck(plugin);
         fastBreak = new FastBreakCheck(plugin);
+        velocity = new VelocityCheck(plugin);
     }
 }

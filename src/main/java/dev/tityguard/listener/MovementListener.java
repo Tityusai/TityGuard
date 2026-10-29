@@ -30,6 +30,13 @@ public class MovementListener implements Listener {
         CheckManager checks = plugin.checks();
         long now = System.currentTimeMillis();
 
+        boolean moved = from.getX() != to.getX() || from.getY() != to.getY() || from.getZ() != to.getZ();
+        if (moved) {
+            d.deltaXZ = Math.hypot(to.getX() - from.getX(), to.getZ() - from.getZ());
+            d.deltaY = to.getY() - from.getY();
+            checks.velocity.onMove(d);   // velocity (AntiKB) takibi muafiyetten bagimsiz
+        }
+
         long grace = plugin.getConfig().getLong("settings.join-grace-ms", 3000L);
         if (d.isExempt(p, now, grace)) {
             d.resetMovement();
@@ -41,10 +48,7 @@ public class MovementListener implements Listener {
 
         if (checks.timer.handle(p, d, now)) setback |= checks.timer.setbackEnabled();
 
-        boolean moved = from.getX() != to.getX() || from.getY() != to.getY() || from.getZ() != to.getZ();
         if (moved) {
-            d.deltaXZ = Math.hypot(to.getX() - from.getX(), to.getZ() - from.getZ());
-            d.deltaY = to.getY() - from.getY();
             d.onGround = BlockUtil.isOnGround(to);
             d.touching = BlockUtil.touchingBlocks(to);
             d.inSpecial = BlockUtil.inSpecial(to);

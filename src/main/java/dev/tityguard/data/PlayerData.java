@@ -29,6 +29,11 @@ public class PlayerData {
     public long lastMoveNanos;
     public double timerBalance;
 
+    // velocity (anti-kb)
+    public boolean velPending, velBlockedH, velBlockedY;
+    public double velH, velY, accH, maxDy;
+    public long velId, velStart;
+
     // savas
     public final Deque<Long> clicks = new ArrayDeque<>();
     public final Deque<Long> intervals = new ArrayDeque<>();

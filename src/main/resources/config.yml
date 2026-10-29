@@ -74,3 +74,11 @@ checks:
     min-ratio: 0.6
     max-breaks-per-sec: 14
     buffer: 3
+  velocity:
+    enabled: true
+    max-vl: 20
+    min-ratio: 0.4        # beklenen knockback'in en az %40'i uygulanmali
+    min-horizontal: 0.1
+    min-vertical: 0.2
+    window-ticks: 6
+    buffer: 2

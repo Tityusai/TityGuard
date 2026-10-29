@@ -130,4 +130,36 @@ public final class BlockUtil {
         RayTraceResult r = eye.getWorld().rayTraceBlocks(eye, dir, len, FluidCollisionMode.NEVER, true);
         return r == null || r.getHitBlock() == null;
     }
+
+    /** Hiz yonunde (vx,vz) ayak veya bas hizasinda katı blok var mi? (knockback duvara carpar) */
+    public static boolean blockedAhead(Location l, double vx, double vz) {
+        double len = Math.hypot(vx, vz);
+        if (len < 1.0E-4) return false;
+        double dx = vx / len, dz = vz / len;
+        World w = l.getWorld();
+        for (double dist : new double[]{0.5, 0.9, 1.4}) {
+            int x = floor(l.getX() + dx * dist);
+            int z = floor(l.getZ() + dz * dist);
+            for (int dy = 0; dy <= 1; dy++) {
+                Block b = safeBlock(w, x, floor(l.getY()) + dy, z);
+                if (b != null && !b.isPassable()) return true;
+            }
+        }
+        return false;
+    }
+
+    /** Basin hemen ustunde (dikey knockback'i engelleyecek) blok var mi? */
+    public static boolean ceilingAbove(Location l) {
+        World w = l.getWorld();
+        double px = l.getX(), pz = l.getZ();
+        for (int x = floor(px - 0.3); x <= floor(px + 0.3); x++) {
+            for (int z = floor(pz - 0.3); z <= floor(pz + 0.3); z++) {
+                for (int y = floor(l.getY() + 1.9); y <= floor(l.getY() + 2.6); y++) {
+                    Block b = safeBlock(w, x, y, z);
+                    if (b != null && !b.isPassable()) return true;
+                }
+            }
+        }
+        return false;
+    }
 }

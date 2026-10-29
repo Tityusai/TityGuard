@@ -3,11 +3,14 @@ package dev.tityguard;
 import dev.tityguard.check.CheckManager;
 import dev.tityguard.command.TityCommand;
 import dev.tityguard.data.PlayerData;
+import com.github.retrooper.packetevents.PacketEvents;
 import dev.tityguard.listener.CombatListener;
 import dev.tityguard.listener.ConnectionListener;
 import dev.tityguard.listener.MovementListener;
+import dev.tityguard.listener.TityPacketListener;
 import dev.tityguard.listener.WorldListener;
 import dev.tityguard.manager.ViolationManager;
+import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,7 +28,16 @@ public class TityGuard extends JavaPlugin {
     private volatile long lastLag = 0;
 
     @Override
+    public void onLoad() {
+        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+        PacketEvents.getAPI().getSettings().reEncodeByDefault(false).checkForUpdates(false);
+        PacketEvents.getAPI().load();
+    }
+
+    @Override
     public void onEnable() {
+        PacketEvents.getAPI().init();
+        PacketEvents.getAPI().getEventManager().registerListener(new TityPacketListener(this));
         saveDefaultConfig();
         this.violations = new ViolationManager(this);
         this.checks = new CheckManager(this);
@@ -55,6 +67,7 @@ public class TityGuard extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        PacketEvents.getAPI().terminate();
         dataMap.clear();
     }
 
